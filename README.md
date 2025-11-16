@@ -125,6 +125,34 @@ Para desarrollo, puedes usar:
 npm run dev
 ```
 
+# Instalación de tailscale
+## Descargar tailscale
+- windows: https://tailscale.com/download/windows
+- linux: curl -fsSL https://tailscale.com/install.sh | sh
+- ### Cuando la app te pida iniciar sesión, pega o abre el link https://login.tailscale.com/uinv/i37430c50e0b8727e
+- Una vez terminada la instlacion y el inicio de sesión hay que probar la conexión
+- Para windows:
+- # Ver IP Tailscale de tu equipo
+tailscale ip -4
+# Probar conectividad al host de María
+Test-NetConnection -ComputerName 100.73.5.110 -Port 1522
+-Para linux: (ejemplo)
+nc -vz 100.73.5.110 1522
+o si no tienes nc
+telnet 100.73.5.110 1522
+
+# Conectarse a la base de datos FREEPDB1
+Usar los siguientes parametros parámetros que te doy exactamente
+Host: 100.73.5.110
+Puerto: 1522
+Service name: FREEPDB1
+Usuario y contraseña: edu_R, EduardoRojas123
+mariana_C, MarianaC123
+cris_C, CrisC123
+
+### Pueden cambiar las constraseñas después del primer login
+
+
 ## 📚 Tecnologías Utilizadas
 
 - **Backend**: Express.js

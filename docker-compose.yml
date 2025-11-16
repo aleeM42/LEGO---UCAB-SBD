@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  oracle23ai:
+    image: gvenzl/oracle-free:23-faststart
+    container_name: oracle23ai
+    restart: unless-stopped
+    ports:
+      - "1522:1521"
+      - "5500:5500"
+
+    environment:
+      ORACLE_PASSWORD: "PBDlego25"
+      ORACLE_PDB: "ORCLPDB1"
+      ORACLE_CHARACTERSET: "AL32UTF8"
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+      - ./init:/opt/oracle/scripts/startup
+    shm_size: "2g"
+
+volumes:
+  oracle_data:

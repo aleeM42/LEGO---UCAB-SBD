@@ -1,21 +1,26 @@
 version: "3.8"
+
 services:
   oracle23ai:
-    image: gvenzl/oracle-free:23-faststart
-    container_name: oracle23ai
-    restart: unless-stopped
+    image: gvenzl/oracle-xe:23.3.0  
+    container_name: oracle23ai_${DEV_ID}
     ports:
-      - "1522:1521"
-      - "5500:5500"
-
+      - "${ORACLE_HOST_PORT}:1521"
+      - "${ORACLE_EM_PORT}:5500"
     environment:
-      ORACLE_PASSWORD: "PBDlego25"
-      ORACLE_PDB: "ORCLPDB1"
-      ORACLE_CHARACTERSET: "AL32UTF8"
+      - ORACLE_PASSWORD=${ORACLE_PASSWORD}
+      - ORACLE_PDB=${ORACLE_PDB}
+      - ORACLE_PDB_HOST=${ORACLE_PDB_HOST:-ORCLPDB1}
+      - ORACLE_CHARACTERSET=${ORACLE_CHARACTERSET:-AL32UTF8}
     volumes:
-      - oracle_data:/opt/oracle/oradata
-      - ./init:/opt/oracle/scripts/startup
-    shm_size: "2g"
+      - oracle_data_${DEV_ID}:/opt/oracle/oradata
+      - ./init-scripts:/opt/oracle/init-scripts:ro
+    healthcheck:
+      test: ["CMD", "bash", "-lc", "echo 'SELECT 1 FROM DUAL;' | sqlplus -s sys/${ORACLE_PASSWORD}@//localhost:1521/${ORACLE_PDB} as sysdba"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    restart: unless-stopped
 
 volumes:
-  oracle_data:
+  oracle_data_${DEV_ID}:
